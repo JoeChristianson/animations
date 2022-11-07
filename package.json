@@ -1,7 +1,10 @@
 {
     "repository": "#",
     "license": "UNLICENSED",
+    "homepage": "https://joechristianson.github.io/animations/",
     "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d dist",
         "build": "webpack --config ./bundler/webpack.prod.js",
         "dev": "webpack serve --config ./bundler/webpack.dev.js"
     },
@@ -13,6 +16,7 @@
         "copy-webpack-plugin": "^10.2.4",
         "css-loader": "^6.7.1",
         "file-loader": "^6.2.0",
+        "gsap": "^3.5.1",
         "html-loader": "^3.1.0",
         "html-webpack-plugin": "^5.5.0",
         "mini-css-extract-plugin": "^2.6.0",
