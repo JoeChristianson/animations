@@ -1,26 +1,36 @@
 import './style.css'
 import * as THREE from "three"
 import {state} from './state'
-import { basicAnimation,basicAction } from './scenes/basicAnimation'
+import { textures,sceneStart,action } from './scenes/rollin'
 import { tick } from '../utils/time'
+import BasicControls from './controls/BasicControls'
 
-const clock = new THREE.Clock()
-state.clock = clock
-const sizes = {
-    width:window.innerWidth,
-    height:window.innerHeight
+
+const main = async ()=>{
+    
+    state.clock = new THREE.Clock()
+    state.screen.fitScreen()
+    state.dom.addCanvas()
+    state.scene = new THREE.Scene()
+    state.cameras.addCamera({height:2})
+    // state.lights.addLight()
+    state.lights.addLight("point",{position:[2,2,2],intensity:.9})
+    state.lights.addLight()
+    const controls = new BasicControls()
+    controls.addControl("mouseMove","circleCameraControl")
+    controls.addControl("wheel","zoom")
+    state.controls = controls
+    
+    // then add Renderer
+    
+    const renderer = new THREE.WebGLRenderer({canvas:state.dom.canvas})
+    renderer.setSize(state.screen.size.width,state.screen.size.height)
+    renderer.shadowMap.enabled = true
+    const object = sceneStart(state.scene)
+    renderer.render(state.scene,state.camera)
+    const date = new Date()
+    state.lastTick = date.getTime()
+    tick(()=>action(object,state.scene),renderer,state.scene,state.camera)
 }
-const canvas = document.querySelector("canvas")
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75,sizes.width/sizes.height)
-state.camera = camera
-camera.position.z = 4
-state.scene = scene
-scene.add(camera)
-const renderer = new THREE.WebGLRenderer({canvas})
-renderer.setSize(sizes.width,sizes.height)
-const object = basicAnimation(scene)
-renderer.render(scene,camera)
-const date = new Date()
-state.lastTick = date.getTime()
-tick(()=>basicAction(object,scene),renderer,scene,camera)
+
+main()
