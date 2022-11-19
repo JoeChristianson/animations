@@ -15,7 +15,7 @@ export class Object{
         this.color = color?randomCoords(color,null,{array:true,round:true}):[150,0,255];
         this.rotation = rotation?randomCoords(rotation,null,{array:true}):[0,0,0]
         this.material = new THREE.MeshBasicMaterial();
-        this.noShadow = shadow===false?true:false;
+        this.shadow = shadow?true:false;
     }
     render(scene,options){
         let material
@@ -23,11 +23,10 @@ export class Object{
         if(this.texture){
             texture = new THREE.TextureLoader().load(`/assets/${this.texture}`)
         }
-        if(this.noShadow){
+        if(!this.shadow){
             material = new THREE.MeshBasicMaterial ({map:texture})
         }
         else{
-            
             material = new THREE.MeshPhongMaterial ({map:texture})
         }
         const mesh = new THREE.Mesh(this.geometry,material)

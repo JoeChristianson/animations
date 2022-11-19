@@ -1,5 +1,5 @@
 import * as THREE from "three"
-
+import subscenes from "./scenes/subscenes"
 
 export const state = {
     cameras:{
@@ -10,14 +10,26 @@ export const state = {
             state.cameras.cameras.push(camera)
             state.scene.add(camera)
         },
-        follow(newTracked){
+        follow(newTracked,options){
             if(newTracked){
                 state.cameras.tracked = newTracked
             }
-            if(state.cameras.tracked){
-                state.camera.lookAt(...state.cameras.tracked.position)
-                state.cameras.center = state.cameras.tracked.position
+            if(options?.shift){
+                state.cameras.xLookShift = options.shift.x
+                state.cameras.yLookShift = options.shift.y
+                state.cameras.zLookShift = options.shift.z
             }
+            if(state.cameras.tracked){
+                const lookShifts = [state.cameras.xLookShift||0,state.cameras.yLookShift||0,state.cameras.zLookShift||0]
+                const positions = state.cameras.tracked.position.map((p,i)=>{
+                    return p+lookShifts[i]
+                })
+                state.camera.lookAt(...positions)
+                state.cameras.center = positions
+            }
+        },
+        unfollow(){
+            state.cameras.tracked = null
         },
         zoom:5,
         zoomMin:2.5,
@@ -44,7 +56,7 @@ export const state = {
                 light.position.set(...options.position)
             }
             else{
-                light = new THREE.AmbientLight(0xffffff,.35)
+                light = new THREE.AmbientLight(0xffffff,.1)
             }
             light.castShadow = true
             state.lights.lights.push(light)
@@ -58,6 +70,7 @@ export const state = {
     }
     ,
     scene:null,
+    subscenes,
     screen:{
         size:null,
         fitScreen:(options)=>{
@@ -69,7 +82,22 @@ export const state = {
                 width:window.innerWidth,
                 height:window.innerHeight*height
             };
+        },
+        getYCenter(){
+            return window.scrollY+window.innerHeight/2
         }
+    },
+    sceneWindows:{
+        currentSceneIndex:0,
+       className:"scene",
+       list:document.querySelectorAll(".scene"),
+       getCenters(){
+            const centers = []
+            state.sceneWindows.list.forEach(scene=>{
+                centers.push(scene.offsetTop+scene.clientHeight/2)
+            })
+            return centers
+       }
     },
     textures:{},
     dom:{

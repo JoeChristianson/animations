@@ -1,5 +1,4 @@
 import {state} from "../src/state"
-console.log("this",state);
 export const tick = (cb,renderer,scene,camera)=>{
     cb()
     renderer.render(scene,camera)
