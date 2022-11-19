@@ -1,3 +1,117 @@
 body{
-    margin:0
+    margin:0;
+    position: relative;
+    height: 100%;
+}
+
+#canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+main{
+    position: absolute;
+    /* min-height: 100vh; */
+    /* height: 100%; */
+    width: 100vw;
+    color: rgb(223, 223, 223);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 1;
+}
+
+main>section{
+    height: 100vh !important;
+}
+
+#title{
+    margin-top: 28vh;
+    text-align: center;
+    display: grid;
+    flex-direction: column;
+    position: relative;
+    grid-template-columns: 3fr 1fr;
+}
+
+
+#title .h1Cont{
+    position: relative;
+    margin-right:40px;
+    font-size: 3rem;
+    margin-top: 0;
+}
+#title .h1Cont::before{
+    content: "";
+    position: absolute;
+    bottom:0;
+    left:0;
+    width: 150%;
+    border-bottom:2px solid rgb(234, 232, 232);
+    transform: scaleX(.02);
+}
+#title h1{
+    margin-bottom:1rem;
+}
+
+#title h2{
+    margin-top: 1rem;
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.reveal{
+    opacity: 0;
+    clip-path: polygon(0 0,100% 0, 100% 0, 0 0 );
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#intro{
+    perspective: 500px;
+    position: relative;
+    width:90vw;
+    overflow: hidden;
+    height: 100%;
+    margin:auto;
+}
+
+.star-wars{
+    position: absolute;
+    top:1000px;
+    left:calc(-450px + 45vw);
+    transform: rotateX(40deg);
+    line-height: 300%;
+    color:#feda4a;
+    letter-spacing: 5px;
+    overflow: hidden;
+    scale:1.5;
+}
+
+.star-wars h2{
+    text-align: center;
+    font-size: 3rem;
+}
+
+.star-wars p{
+    text-align: justify;
+    font-size: 2rem;
+}
+
+
+.star-wars p,.star-wars h2{
+    width: 900px;
+}
+
+#projects > h1{
+    transform: scale(0);
+    margin-top:50vh;
 }

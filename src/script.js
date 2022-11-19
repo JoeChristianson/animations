@@ -4,10 +4,11 @@ import {state} from './state'
 import { textures,sceneStart,action } from './scenes/rollin'
 import { tick } from '../utils/time'
 import BasicControls from './controls/BasicControls'
-
+import { getAllTextureFileNames } from './textureMethods/getAllTextureFileNames'
 
 const main = async ()=>{
-    
+
+    getAllTextureFileNames("a")
     state.clock = new THREE.Clock()
     state.screen.fitScreen()
     state.dom.addCanvas()
@@ -15,10 +16,9 @@ const main = async ()=>{
     state.cameras.addCamera({height:2})
     // state.lights.addLight()
     state.lights.addLight("point",{position:[2,2,2],intensity:.9})
-    state.lights.addLight()
     const controls = new BasicControls()
     controls.addControl("mouseMove","circleCameraControl")
-    controls.addControl("wheel","zoom")
+    controls.addControl("wheel","scrollScenes")
     state.controls = controls
     
     // then add Renderer
