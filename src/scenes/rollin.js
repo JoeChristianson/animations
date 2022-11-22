@@ -15,7 +15,7 @@ export const sceneStart = (scene)=>{
     player.render(scene)
     state.camera.position.x = 1
     state.cameras.follow(player,{shift:{y:2.5}})
-    for(let i=0;i<4000;i++){
+    for(let i=0;i<400;i++){
         const cube = new Sphere({type:"moving",dimensions:{x:[0,1.5]},position:{x:[-1000,1000],y:[0,1000],z:[1000,-1000]},color:{x:[250,256],y:[170,255],z:[170,256]},shadow:false})
         cube.render(scene)
     }
@@ -23,17 +23,13 @@ export const sceneStart = (scene)=>{
     ground.render(scene,{type:"static"})
     const targetCircle = new Circle({dimensions:{x:10},position:{x:0,y:0,z:-100},color:{x:255,y:0,z:0 },_id:"target",ground:true})
     targetCircle.render(state.scene)
+    player.moveToTarget("target",2)
 }
 
 
 
 export const action = ()=>{
-    state.objects.players.forEach(object=>{
-        const rotationRate = [-.001,0,0.001]
-        object.mesh.rotationOrder = "xyz"
-        object.rotation = object.rotation.map((r,i)=>r+rotationRate[i]*2*Math.PI)
-        object.animate()
-        object.position = [object.position[0]+(-rotationRate[2]*2*Math.PI),object.position[1],object.position[2]+(rotationRate[0]*2*Math.PI)]
-    })
+    state.objects.players.forEach(player=>player.act())
+    
     state.cameras.follow()
 }
