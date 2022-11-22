@@ -6,6 +6,7 @@ import { sceneStart } from "../rollin";
 import { state } from "../../state";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry"
 import fontJSON from "../../../fonts/droid_sans_mono_regular.typeface.json"
+import { Circle } from "../../../objects/Circle";
 
 let tl;
 
@@ -40,6 +41,8 @@ const enter = async ()=>{
     state.cameras.unfollow()
     state.controls.removeControl("mouseMove","circleCameraControl")
     state.controls.addControl("mouseMove","rotateCameraControl")
+
+
 }
 
 const exit = ()=>{

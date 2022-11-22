@@ -31,6 +31,10 @@ export const state = {
         unfollow(){
             state.cameras.tracked = null
         },
+        freeze:false,
+        setFreeze(boolean){
+            state.cameras.freeze = boolean
+        },
         zoom:5,
         zoomMin:2.5,
         minY:1,
@@ -100,6 +104,11 @@ export const state = {
        }
     },
     textures:{},
+    topography:{
+        ground:{
+            height:0
+        }
+    }, 
     dom:{
         canvas:null,
         addCanvas:()=>{
