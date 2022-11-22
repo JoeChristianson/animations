@@ -4,6 +4,9 @@ import { state } from "../src/state";
 
 export class Object{
     constructor({texture,type,dimensions,position,color,rotation,shadow,_id}){
+        if(_id==="target"){
+            console.log(position)
+        }
         this._id = _id;
         this.type = type
         this.texture = texture
@@ -16,8 +19,12 @@ export class Object{
         this.rotation = rotation?randomCoords(rotation,null,{array:true}):[0,0,0]
         this.material = new THREE.MeshBasicMaterial();
         this.shadow = shadow?true:false;
+        this.target = null;
     }
     render(scene,options){
+        if(this._id==="target"){
+            console.log(this)
+        }
         let material
         let texture;
         if(this.texture){
@@ -53,5 +60,8 @@ export class Object{
     }
     set positionY(num){
         this.position[1] = num
+    }
+    moveTo(_id){
+        
     }
 }

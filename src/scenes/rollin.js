@@ -1,5 +1,5 @@
 import { Plane } from "../../objects/Plane"
-import {Cube} from "../../objects/Cube"
+import {Circle} from "../../objects/Circle"
 import { Sphere } from "../../objects/Sphere"
 import { delta } from "../../utils/time"
 import { state } from "../state"
@@ -9,7 +9,7 @@ import { CSSRulePlugin } from "gsap/all"
 export const sceneStart = (scene)=>{
     
 
-    const player = new Sphere({color:{x:[250,255],y:[250,255],z:[0,255]},position:{x:0,y:1,z:0},_id:"main",shadow:true,type:"players",texture:"ball/awe.jpg"})
+    const player = new Sphere({_id:"orb",color:{x:[250,255],y:[250,255],z:[0,255]},position:{x:0,y:1,z:0},_id:"main",shadow:true,type:"players",texture:"ball/awe.jpg"})
 
     // const player = new Sphere({color:{x:[250,255],y:[250,255],z:[0,255]},dimensions:{x:1},position:{x:0,y:1,z:0},_id:"main",shadow:true,type:"players",texture:"ball/awe.jpg"})
     player.render(scene)
@@ -21,6 +21,8 @@ export const sceneStart = (scene)=>{
     }
     const ground = new Plane({dimensions:{x:9000,y:9000},color:{x:120,y:250,z:120},position:{x:0,y:0,z:0},rotation:{x:Math.PI*1.5,y:0,z:Math.PI/4},shadow:true,texture:"ball/awe.jpg"})
     ground.render(scene,{type:"static"})
+    const targetCircle = new Circle({dimensions:{x:10},position:{x:0,y:0,z:-100},color:{x:255,y:0,z:0 },_id:"target",ground:true})
+    targetCircle.render(state.scene)
 }
 
 

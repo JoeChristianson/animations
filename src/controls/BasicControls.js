@@ -1,3 +1,4 @@
+import { getLocationByObjectId } from "../../utils/getLocation"
 import { findClosestSceneIndex } from "../../utils/scrolling"
 import { state } from "../state"
 
@@ -12,6 +13,9 @@ export default class BasicControls{
     }
     enable(){
         window.addEventListener("mousemove",(e)=>{
+            if(state.cameras.freeze){
+                return
+            }
             this.cursor.x = e.clientX/this.screenSize.width-.5
             this.cursor.y = e.clientY/this.screenSize.height-.5
             if(!Array.isArray(this.mouseMoveControls)){
@@ -25,6 +29,21 @@ export default class BasicControls{
                 return
             }
             this.control(this.wheelControls)
+        })
+        window.addEventListener("keydown",(e)=>{
+            e.preventDefault()
+            switch (e.key) {
+                case " ":  
+                    console.log(state.cameras.freeze);
+                    state.cameras.setFreeze(!state.cameras.freeze )
+                    break;
+                case "f":  
+                const location = getLocationByObjectId(state.objects,"target")
+                    console.log(location);
+                break;
+                default:
+                    break;
+            }
         })
     }
     // this should be added to the action!
@@ -45,15 +64,14 @@ export default class BasicControls{
         state.camera.position.y = 1
         state.camera.lookAt(1,1,1)
         state.camera.rotation.order = "YXZ"
-        const y = controls.cursor.x*20;
-        const x = (state.camera.baseHeight||1)-controls.cursor.y*10
+        const y = (-controls.cursor.x)*20;
+        const x = ((state.camera.baseHeight||1)-controls.cursor.y*10)
         state.camera.rotation.y = y
         state.camera.rotation.x = x
-    
     }
     circleCameraControl(controls){
-        state.camera.position.x = state.cameras.center[0]+Math.sin(controls.cursor.x*Math.PI*2)*state.cameras.zoom
-        state.camera.position.z = state.cameras.center[2]+Math.cos(controls.cursor.x*Math.PI*2)*state.cameras.zoom
+        state.camera.position.x = state.cameras.center[0]+Math.sin(-controls.cursor.x*Math.PI*2)*state.cameras.zoom
+        state.camera.position.z = state.cameras.center[2]+Math.cos(-controls.cursor.x*Math.PI*2)*state.cameras.zoom
         state.camera.position.y = Math.max(state.cameras.minY,(state.camera.baseHeight||1)-controls.cursor.y*state.cameras.zoom*2)
     }
     zoom(controls){
